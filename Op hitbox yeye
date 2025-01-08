@@ -37,32 +37,18 @@ local Section = Tab:CreateSection("Hitbox yeye")
 local Button = Tab:CreateButton({
    Name = "Hitbox Super deadly",
    Callback = function()
--- Acceder al personaje del jugador
-local player = game.Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-
--- Encontrar una parte en el personaje, por ejemplo, el torso
-local torso = character:WaitForChild("UpperTorso")
-
--- Hacer que la hitbox sea super grande
-torso.Size = Vector3.new(100, 100, 100)  -- Cambia estos valores para ajustar el tamaño de la hitbox
-
--- Forzar que la parte tenga colisión
-torso.CanCollide = true
-
--- Hacer que la hitbox sea visible o invisible (opcional)
-torso.Transparency = 0  -- Cambia a 1 para que sea invisible
-
--- Si quieres que la hitbox sea mucho más grande que solo una parte, puedes modificar otras partes también
-local lowerTorso = character:WaitForChild("LowerTorso")
-lowerTorso.Size = Vector3.new(100, 100, 100)
-
--- Modificar otras partes del cuerpo también (si lo deseas)
-local head = character:WaitForChild("Head")
-head.Size = Vector3.new(100, 100, 100)
-
--- Cambiar las propiedades de colisión de otras partes si es necesario
-head.CanCollide = true
-lowerTorso.CanCollide = true
+spawn(function()
+    while true do
+        wait()
+        if isEnabled then
+            for _, player in ipairs(game:GetService("Players"):GetPlayers()) do
+                local args = {
+                    [1] = workspace:WaitForChild(player.Name)
+                }
+                game:GetService("ReplicatedStorage"):WaitForChild("remotes"):WaitForChild("hitReg"):FireServer(unpack(args))
+            end
+        end
+    end
+end)
    end,
 })
